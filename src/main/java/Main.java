@@ -3,26 +3,25 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        String[][] mazo1 = crearMatrizCartas();
-        String[][] mazo2 = crearMatrizCartas();
+        String[][] mazo = crearMatrizCartas();
+        ejecutarMenu(mazo);
     }
 
-    public static void ejecutarMenu(String vinilos[][]) {
+    public static void ejecutarMenu(String mazo[][]) {
         int opcion;
         do {
             mostrarMenu();
             opcion = leerOpcion();
-            ejecutarOpcion(opcion, vinilos);
-        } while (opcion != 5);
+            ejecutarOpcion(opcion, mazo);
+        } while (opcion != 4);
     }
 
     public static void mostrarMenu() {
         System.out.println("\nMenú del juego de cartas:");
-        System.out.println("1. Agregar vinilo");
-        System.out.println("2. Mostrar total de vinilos");
-        System.out.println("3. Mostrar espacios disponibles");
-        System.out.println("4. Borrar un vinilo");
-        System.out.println("5. Salir");
+        System.out.println("1. Agregar cartas al mazo");
+        System.out.println("2. Usar un mazo predeterminado");
+        System.out.println("3. Jugar el juego");
+        System.out.println("4. Salir");
         System.out.print("Seleccione una opción: ");
     }
 
@@ -32,7 +31,7 @@ public class Main {
             Scanner scanner = crearScanner();
             if (scanner.hasNextInt()) {
                 opcion = scanner.nextInt();
-                if (opcion >= 1 && opcion <= 5) {
+                if (opcion >= 1 && opcion <= 4) { // Fix range check
                     break;
                 } else {
                     System.out.print("Opción inválida. Intente nuevamente: ");
@@ -42,31 +41,33 @@ public class Main {
                 scanner.next();
             }
         }
-
         return opcion;
     }
-
+    public static String leerString(String mensaje) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(mensaje);
+        return scanner.nextLine();
+    }
     public static Scanner crearScanner() {
         return new Scanner(System.in);
     }
 
-    public static void ejecutarOpcion(int opcion, String[][] vinilos) {
+    public static void ejecutarOpcion(int opcion, String[][] mazo) {
         switch (opcion) {
             case 1:
-
+                String nombreCarta = leerString("Ingrese el nombre de la carta: ");
+                String puntaje = leerString("Ingrese el puntaje de la carta: ");
+                agregarCartas(mazo,nombreCarta,puntaje);
                 break;
             case 2:
-
+                inicializarCartasJuego(mazo);
                 break;
             case 3:
-
+                jugar();
                 break;
             case 4:
-
-                break;
-            case 5:
                 System.out.println("Saliendo del sistema. ¡Hasta luego!");
-                break;
+                salir();
             default:
                 System.out.println("Opción no válida.");
         }
@@ -77,7 +78,7 @@ public class Main {
         return mazo;
     }
 
-    public static void inicializarCartasJuego(String[][] mazo) {
+    public static String[][] inicializarCartasJuego(String[][] mazo) {
         String[][] mazoTest = {
                 {"Carta 2", "2"},
                 {"Carta 3", "3"},
@@ -92,6 +93,10 @@ public class Main {
                 {"Carta Q", "10"},
                 {"Carta K", "10"}
         };
+        for (String[] carta : mazoTest) {
+            agregarCartas(mazo, carta[0], carta[1]);
+        }
+        return mazo;
     }
 
     public static void agregarCartas(String[][] mazo, String nombreCarta, String puntaje) {
@@ -110,5 +115,12 @@ public class Main {
         Random random = new Random();
         int indiceAleatorio = random.nextInt(mazo.length);
         return mazo[indiceAleatorio];
+    }
+    public static void jugar(){
+
+    }
+    public static void salir(){
+        System.out.println("Saliendo del sistema. ¡Hasta luego!");
+        System.exit(0);
     }
 }
