@@ -7,7 +7,7 @@ public class Main {
         ejecutarMenu(mazo);
     }
 
-    public static void ejecutarMenu(String mazo[][]) {
+    public static void ejecutarMenu(String[][] mazo) {
         int opcion;
         do {
             mostrarMenu();
@@ -63,10 +63,10 @@ public class Main {
                 inicializarCartasJuego(mazo);
                 break;
             case 3:
-                jugar();
+                jugar(mazo);
                 break;
             case 4:
-                System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                imprimirMatriz(mazo);
                 salir();
             default:
                 System.out.println("Opción no válida.");
@@ -116,11 +116,38 @@ public class Main {
         int indiceAleatorio = random.nextInt(mazo.length);
         return mazo[indiceAleatorio];
     }
-    public static void jugar(){
+    public static void jugar(String[][] mazo) {
+        int puntajeJugador1 = obtenerCartas(mazo);
+        int puntajeJugador2 = obtenerCartas(mazo);
+        System.out.println("Puntaje jugador 1: " + puntajeJugador1);
+        System.out.println("Puntaje jugador 2: " + puntajeJugador2);
+        decidirGanador();
+    }
+    public static void decidirGanador(){
 
     }
     public static void salir(){
         System.out.println("Saliendo del sistema. ¡Hasta luego!");
         System.exit(0);
+    }
+    public static int obtenerCartas(String[][] mazo) {
+        int puntaje = 0;
+        for (int i = 0; i < 3; i++) {
+            String valorCarta = mazo[sacarNumeroAleatorio()][1];
+            puntaje += Integer.parseInt(valorCarta);
+        }
+        return puntaje;
+    }
+    public static int sacarNumeroAleatorio() { //Generar un número aleatorio entre 0 y 11
+        Random random = new Random();
+        return random.nextInt(12);
+    }
+    public static void imprimirMatriz(String[][] matriz) {
+        for (String[] fila : matriz) {
+            for (String elemento : fila) {
+                System.out.print(elemento + " ");
+            }
+            System.out.println();
+        }
     }
 }
